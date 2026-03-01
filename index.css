@@ -1,0 +1,491 @@
+/* ============================================
+   EduSpace – Deep Space Cinematic UI (Google Style)
+   ============================================ */
+
+*,
+*::before,
+*::after {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+}
+
+:root {
+    --bg-deep: #020306;
+    /* Much darker, realistic space black */
+    --text-primary: #f8f9fa;
+    --text-dim: #9aa0a6;
+    /* Google UI secondary text color */
+
+    --font-display: 'Outfit', sans-serif;
+    --font-body: 'Inter', sans-serif;
+}
+
+html,
+body {
+    width: 100vw;
+    height: 100vh;
+    margin: 0;
+    padding: 0;
+    background: var(--bg-deep);
+    color: var(--text-primary);
+    font-family: var(--font-body);
+    overflow: hidden;
+    overscroll-behavior: none;
+}
+
+a {
+    text-decoration: none;
+    color: inherit;
+    outline: none;
+    -webkit-tap-highlight-color: transparent;
+}
+
+/* ---- Transition Overlay ---- */
+.transition-overlay {
+    position: fixed;
+    inset: 0;
+    z-index: 9999;
+    background: var(--bg-deep);
+    opacity: 0;
+    pointer-events: none;
+    transition: opacity 0.8s cubic-bezier(0.25, 1, 0.5, 1);
+}
+
+body.navigating .transition-overlay {
+    opacity: 1;
+    pointer-events: auto;
+}
+
+/* ---- Space Viewport (The Camera) ---- */
+#space-viewport {
+    position: absolute;
+    inset: 0;
+    transform-origin: center center;
+    transition: transform 1.2s cubic-bezier(0.22, 1, 0.36, 1);
+    will-change: transform;
+}
+
+/* ---- Canvases & Background ---- */
+canvas {
+    position: absolute;
+    inset: 0;
+    pointer-events: none;
+}
+
+#starfield {
+    z-index: 0;
+}
+
+#cosmic-dust {
+    z-index: 10;
+    mix-blend-mode: screen;
+    opacity: 0.3;
+}
+
+/* Very subtle */
+
+/* Cinematic Ambient Nebula */
+.ambient-glow {
+    position: absolute;
+    border-radius: 50%;
+    filter: blur(200px);
+    opacity: 0.08;
+    pointer-events: none;
+    mix-blend-mode: screen;
+    z-index: 1;
+}
+
+.glow-blue {
+    width: 1200px;
+    height: 1200px;
+    background: #2b70c9;
+    top: -300px;
+    right: -300px;
+    animation: breathe 25s infinite alternate;
+}
+
+.glow-purple {
+    width: 1400px;
+    height: 1400px;
+    background: #3d1b66;
+    bottom: -400px;
+    left: -300px;
+    animation: breathe 30s infinite alternate-reverse;
+}
+
+@keyframes breathe {
+    from {
+        transform: scale(0.95);
+        opacity: 0.05;
+    }
+
+    to {
+        transform: scale(1.05);
+        opacity: 0.12;
+    }
+}
+
+/* ================================================
+   Solar System Container
+   ================================================ */
+.solar-system {
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    width: 0;
+    height: 0;
+    z-index: 5;
+    will-change: transform;
+}
+
+/* ---- Planet Groups ---- */
+.planet-group {
+    position: absolute;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    /* Ultra-slow, Google-style calming motion */
+    animation: float 45s ease-in-out infinite alternate;
+    cursor: pointer;
+    z-index: 5;
+    transition: z-index 0s, transform 0.6s cubic-bezier(0.2, 0.8, 0.2, 1);
+}
+
+.planet-group:hover,
+.planet-group:focus-visible {
+    z-index: 20;
+}
+
+.group-sun {
+    cursor: default;
+    z-index: 2;
+    animation-duration: 60s;
+}
+
+.group-earth {
+    animation-delay: -15s;
+    animation-duration: 22s;
+}
+
+.group-saturn {
+    animation-delay: -12s;
+    animation-duration: 25s;
+}
+
+.group-mars {
+    animation-delay: -2s;
+    animation-duration: 20s;
+}
+
+.group-moon {
+    animation-delay: -8s;
+    animation-duration: 24s;
+}
+
+@keyframes float {
+    0% {
+        margin-top: -8px;
+        margin-left: 5px;
+    }
+
+    50% {
+        margin-top: 5px;
+        margin-left: -8px;
+    }
+
+    100% {
+        margin-top: 8px;
+        margin-left: 8px;
+    }
+}
+
+/* Navigation fade */
+body.navigating .planet-group {
+    opacity: 0;
+    transition: opacity 0.5s !important;
+}
+
+body.navigating .planet-group.clicked {
+    opacity: 1;
+    transition: opacity 0.2s !important;
+}
+
+body.navigating #starfield,
+body.navigating #cosmic-dust {
+    opacity: 0;
+    transition: opacity 0.8s;
+}
+
+/* ---- Realistic Planets Base ---- */
+.planet {
+    border-radius: 50%;
+    position: relative;
+    transform: scale(1);
+    transition: transform 0.6s cubic-bezier(0.2, 0.8, 0.2, 1), box-shadow 0.6s ease;
+    z-index: 2;
+    /* Default dark shading for all realistic planets */
+    box-shadow: inset -30px -30px 50px rgba(0, 0, 0, 0.95), inset 10px 10px 30px rgba(255, 255, 255, 0.1);
+}
+
+.planet-group:hover .planet:not(.sun) {
+    transform: scale(1.15);
+}
+
+/* Atmospheric Rim Lighting */
+.atmosphere {
+    position: absolute;
+    inset: 0;
+    border-radius: 50%;
+    /* Cinematic rim light on the top left, deep shadow on bottom right */
+    box-shadow: inset -40px -40px 60px rgba(0, 0, 0, 0.98), inset 15px 15px 40px rgba(255, 255, 255, 0.3);
+    pointer-events: none;
+    mix-blend-mode: soft-light;
+}
+
+/* Titles - Clean Google UI Style */
+.planet-title {
+    position: absolute;
+    bottom: -70px;
+    text-align: center;
+    opacity: 0;
+    transform: translateY(-10px);
+    transition: all 0.4s cubic-bezier(0.2, 0.8, 0.2, 1);
+    pointer-events: none;
+    background: rgba(0, 0, 0, 0.6);
+    padding: 8px 16px;
+    border-radius: 20px;
+    backdrop-filter: blur(10px);
+    border: 1px solid rgba(255, 255, 255, 0.05);
+}
+
+.planet-group:hover .planet-title:not(.sun-title) {
+    opacity: 1;
+    transform: translateY(0);
+}
+
+.planet-title h2 {
+    font-family: var(--font-body);
+    font-size: 1rem;
+    font-weight: 500;
+    letter-spacing: 0.5px;
+    color: #fff;
+    margin-bottom: 2px;
+}
+
+.planet-title p {
+    font-family: var(--font-body);
+    font-size: 0.75rem;
+    font-weight: 400;
+    color: var(--text-dim);
+    letter-spacing: 0.5px;
+}
+
+.group-sun .planet-title {
+    position: absolute;
+    bottom: -70px;
+    opacity: 1;
+    transform: none;
+    background: transparent;
+    backdrop-filter: none;
+    border: none;
+}
+
+.group-sun .planet-title h2 {
+    font-family: var(--font-display);
+    font-size: 1.2rem;
+    margin-bottom: 4px;
+    color: #e8eaed;
+}
+
+
+/* ================================================
+   Cinematic Planet Materials
+   ================================================ */
+
+/* --- SUN --- (Central AI Dashboard) */
+.sun {
+    width: 140px;
+    height: 140px;
+    background: #ffffff;
+    /* Soft, elegant volumetric glow rather than an intense flare */
+    box-shadow:
+        0 0 80px 10px rgba(255, 240, 200, 0.4),
+        0 0 160px 30px rgba(255, 200, 100, 0.1),
+        0 0 300px 80px rgba(255, 120, 0, 0.05);
+    animation: sunPulsate 18s ease-in-out infinite alternate;
+}
+
+@keyframes sunPulsate {
+    from {
+        box-shadow: 0 0 60px 8px rgba(255, 240, 200, 0.3), 0 0 120px 25px rgba(255, 200, 100, 0.08), 0 0 250px 70px rgba(255, 120, 0, 0.03);
+    }
+
+    to {
+        box-shadow: 0 0 90px 12px rgba(255, 240, 200, 0.5), 0 0 180px 35px rgba(255, 200, 100, 0.15), 0 0 320px 90px rgba(255, 120, 0, 0.08);
+    }
+}
+
+/* --- EARTH (Vault) --- (Deep ocean blues, realistic terminator line) */
+.earth {
+    width: 100px;
+    height: 100px;
+    background: radial-gradient(circle at 30% 30%, #20627a 0%, #15456b 40%, #06182c 90%);
+    overflow: hidden;
+}
+
+.earth::after {
+    content: '';
+    position: absolute;
+    inset: 0;
+    border-radius: 50%;
+    background-image:
+        radial-gradient(ellipse at 60% 30%, rgba(255, 255, 255, 0.6) 5%, transparent 40%),
+        radial-gradient(ellipse at 25% 65%, rgba(255, 255, 255, 0.4) 10%, transparent 45%);
+    mix-blend-mode: overlay;
+    opacity: 0.6;
+    transform: rotate(15deg);
+}
+
+.group-earth:hover .planet {
+    /* Extreme soft drop shadow for elevation, NOT a neon glow */
+    box-shadow: inset -30px -30px 50px rgba(0, 0, 0, 0.95), inset 10px 10px 30px rgba(200, 230, 255, 0.3), 0 20px 60px rgba(0, 0, 0, 0.8), 0 0 80px rgba(32, 98, 122, 0.3);
+}
+
+
+/* --- SATURN (Playlist) --- (Subtle gaseous bands, delicate rings) */
+.group-saturn {
+    margin-top: 20px;
+}
+
+.saturn {
+    width: 110px;
+    height: 110px;
+    background: radial-gradient(circle at 35% 35%, #d1baa3 0%, #9e8770 50%, #473a2f 90%);
+}
+
+.saturn::after {
+    content: '';
+    position: absolute;
+    inset: 0;
+    border-radius: 50%;
+    background: repeating-linear-gradient(to bottom, transparent, transparent 8px, rgba(0, 0, 0, 0.06) 8px, rgba(0, 0, 0, 0.06) 12px);
+    transform: rotate(-15deg);
+    mix-blend-mode: multiply;
+    opacity: 0.5;
+}
+
+.saturn-rings {
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    width: 260px;
+    height: 260px;
+    border-radius: 50%;
+    transform: translate(-50%, -50%) rotateX(76deg) rotateY(-15deg);
+    border: 18px solid rgba(209, 186, 163, 0.4);
+    border-top-color: rgba(209, 186, 163, 0.05);
+    /* Fade out back half for 3D */
+    box-shadow:
+        0 4px 10px rgba(0, 0, 0, 0.5), inset 0 2px 10px rgba(0, 0, 0, 0.5),
+        0 0 15px rgba(209, 186, 163, 0.1), inset 0 0 15px rgba(209, 186, 163, 0.1);
+    pointer-events: none;
+    z-index: -1;
+    transition: transform 0.8s cubic-bezier(0.2, 0.8, 0.2, 1);
+}
+
+.group-saturn:hover .saturn-rings {
+    transform: translate(-50%, -50%) rotateX(72deg) rotateY(-10deg) scale(1.05);
+    border-color: rgba(209, 186, 163, 0.6);
+    border-top-color: rgba(209, 186, 163, 0.1);
+}
+
+.group-saturn:hover .planet {
+    box-shadow: inset -30px -30px 50px rgba(0, 0, 0, 0.95), inset 10px 10px 30px rgba(255, 230, 200, 0.2), 0 20px 60px rgba(0, 0, 0, 0.8), 0 0 80px rgba(209, 186, 163, 0.2);
+}
+
+
+/* --- MARS (Code Station) --- (Darker terra cotta, sharp shadows) */
+.mars {
+    width: 75px;
+    height: 75px;
+    background: radial-gradient(circle at 30% 30%, #a8513d 0%, #6e2e20 50%, #1f0b06 90%);
+}
+
+.mars::after {
+    content: '';
+    position: absolute;
+    inset: 0;
+    border-radius: 50%;
+    background-image:
+        radial-gradient(circle at 35% 55%, rgba(0, 0, 0, 0.4) 15%, transparent 35%),
+        radial-gradient(circle at 65% 35%, rgba(0, 0, 0, 0.3) 10%, transparent 25%);
+    mix-blend-mode: multiply;
+    opacity: 0.8;
+}
+
+.group-mars:hover .planet {
+    box-shadow: inset -30px -30px 50px rgba(0, 0, 0, 0.95), inset 10px 10px 30px rgba(255, 180, 150, 0.2), 0 20px 60px rgba(0, 0, 0, 0.8), 0 0 80px rgba(168, 81, 61, 0.2);
+}
+
+
+/* --- MOON (Share Hub) --- (Desaturated, stark cinematic contrast) */
+.moon {
+    width: 60px;
+    height: 60px;
+    background: radial-gradient(circle at 25% 25%, #d1d5db 0%, #6b7280 40%, #111827 85%);
+}
+
+.moon::after {
+    content: '';
+    position: absolute;
+    inset: 0;
+    border-radius: 50%;
+    background-image:
+        radial-gradient(circle at 25% 65%, rgba(0, 0, 0, 0.5) 15%, transparent 35%),
+        radial-gradient(circle at 55% 35%, rgba(0, 0, 0, 0.4) 10%, transparent 30%),
+        radial-gradient(circle at 80% 75%, rgba(0, 0, 0, 0.4) 12%, transparent 25%);
+    mix-blend-mode: multiply;
+    opacity: 0.7;
+}
+
+.group-moon:hover .planet {
+    box-shadow: inset -30px -30px 50px rgba(0, 0, 0, 0.95), inset 10px 10px 30px rgba(255, 255, 255, 0.2), 0 20px 60px rgba(0, 0, 0, 0.8), 0 0 80px rgba(209, 213, 219, 0.15);
+}
+
+
+/* ================================================
+   Responsive Adjustments
+   ================================================ */
+@media (max-width: 900px) {
+    .solar-system {
+        transform: translate(-50%, -50%) scale(0.65);
+    }
+}
+
+@media (max-width: 600px) {
+    .solar-system {
+        transform: translate(-50%, -50%) scale(0.4);
+    }
+
+    .group-earth {
+        transform: translate(-280px, -200px) !important;
+    }
+
+    .group-saturn {
+        transform: translate(320px, -220px) !important;
+    }
+
+    .group-mars {
+        transform: translate(220px, 320px) !important;
+    }
+
+    .group-moon {
+        transform: translate(-220px, 300px) !important;
+    }
+
+    .group-sun .planet-title {
+        bottom: -70px;
+    }
+}

@@ -1,0 +1,157 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Galaxy Vault – EduSpace</title>
+    <meta name="description"
+        content="Galaxy Vault – Store and manage your learning certificates in a secure cosmic vault." />
+    <link rel="preconnect" href="https://fonts.googleapis.com" />
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+    <link
+        href="https://fonts.googleapis.com/css2?family=Orbitron:wght@400;600;800&family=Inter:wght@300;400;500;600&display=swap"
+        rel="stylesheet" />
+    <link rel="stylesheet" href="galaxy-vault.css" />
+</head>
+
+<body>
+    <!-- Cinematic Starfield & Dust -->
+    <canvas id="starfield"></canvas>
+    <canvas id="cosmic-dust"></canvas>
+
+    <!-- Deep Ambient Glows -->
+    <div class="ambient-glow glow-blue"></div>
+    <div class="ambient-glow glow-purple"></div>
+
+    <div class="page-wrapper">
+
+        <!-- Navbar -->
+        <nav class="navbar" id="navbar">
+            <a href="index.html" class="navbar__brand">
+                <span class="navbar__logo">🚀</span>
+                <span class="navbar__name">EduSpace</span>
+            </a>
+            <ul class="navbar__links">
+                <li><a href="index.html" class="navbar__link">Home</a></li>
+                <li><a href="galaxy-vault.html" class="navbar__link navbar__link--active">Galaxy Vault</a></li>
+                <li><a href="#" class="navbar__link">Orbit Playlist</a></li>
+                <li><a href="#" class="navbar__link">Code Station</a></li>
+                <li><a href="#" class="navbar__link">Share Hub</a></li>
+            </ul>
+            <button class="navbar__hamburger" id="hamburger" aria-label="Toggle navigation">
+                <span></span><span></span><span></span>
+            </button>
+        </nav>
+
+        <!-- Page Header -->
+        <header class="vault-header">
+            <div class="vault-header__glow"></div>
+            <div class="vault-header__icon">
+                <svg viewBox="0 0 80 80" fill="none">
+                    <circle cx="40" cy="40" r="36" stroke="url(#hg)" stroke-width="2.5" />
+                    <path d="M28 50c0-8 5-16 12-16s12 8 12 16" stroke="url(#hg)" stroke-width="2.5"
+                        stroke-linecap="round" />
+                    <circle cx="40" cy="30" r="5" fill="url(#hg)" />
+                    <path d="M34 56h12" stroke="url(#hg)" stroke-width="2.5" stroke-linecap="round" />
+                    <defs>
+                        <linearGradient id="hg" x1="0" y1="0" x2="80" y2="80">
+                            <stop stop-color="#00d4ff" />
+                            <stop offset="1" stop-color="#7b2fff" />
+                        </linearGradient>
+                    </defs>
+                </svg>
+            </div>
+            <h1 class="vault-header__title">Galaxy Vault</h1>
+            <p class="vault-header__subtitle">Your secure cosmic vault for certificates &amp; achievements. Upload,
+                organize, and showcase your milestones across the learning universe.</p>
+        </header>
+
+        <!-- Upload Section -->
+        <section class="upload-section" id="upload-section">
+            <div class="upload-zone" id="upload-zone">
+                <div class="upload-zone__ring"></div>
+                <div class="upload-zone__content">
+                    <svg class="upload-zone__icon" viewBox="0 0 64 64" fill="none">
+                        <path d="M32 44V20M32 20l-10 10M32 20l10 10" stroke="currentColor" stroke-width="2.5"
+                            stroke-linecap="round" stroke-linejoin="round" />
+                        <path d="M12 40v10a6 6 0 006 6h28a6 6 0 006-6V40" stroke="currentColor" stroke-width="2.5"
+                            stroke-linecap="round" />
+                    </svg>
+                    <h3 class="upload-zone__title">Launch Certificate Upload</h3>
+                    <p class="upload-zone__desc">Drag &amp; drop your certificate here, or click to browse</p>
+                    <span class="upload-zone__formats">Supports PDF, PNG, JPG (max 10 MB)</span>
+                    <input type="file" id="file-input" class="upload-zone__input" accept=".pdf,.png,.jpg,.jpeg"
+                        multiple />
+                </div>
+            </div>
+        </section>
+
+        <!-- Stats Bar -->
+        <section class="stats-bar">
+            <div class="stat-chip">
+                <span class="stat-chip__value" id="stat-total">0</span>
+                <span class="stat-chip__label">Total Certificates</span>
+            </div>
+            <div class="stat-chip">
+                <span class="stat-chip__value" id="stat-recent">0</span>
+                <span class="stat-chip__label">Added This Month</span>
+            </div>
+            <div class="stat-chip">
+                <span class="stat-chip__value" id="stat-categories">0</span>
+                <span class="stat-chip__label">Categories</span>
+            </div>
+        </section>
+
+        <!-- Certificates Grid -->
+        <section class="vault-grid-section">
+            <div class="vault-grid-section__header">
+                <h2 class="vault-grid-section__title">Your Certificates</h2>
+                <div class="vault-grid-section__filters">
+                    <button class="filter-btn filter-btn--active" data-filter="all">All</button>
+                    <button class="filter-btn" data-filter="coding">Coding</button>
+                    <button class="filter-btn" data-filter="design">Design</button>
+                    <button class="filter-btn" data-filter="data">Data Science</button>
+                    <button class="filter-btn" data-filter="cloud">Cloud</button>
+                </div>
+            </div>
+
+            <div class="cert-grid" id="cert-grid">
+                <!-- Cards inserted by JS -->
+            </div>
+
+            <!-- Empty state -->
+            <div class="empty-state" id="empty-state" style="display:none;">
+                <svg class="empty-state__icon" viewBox="0 0 80 80" fill="none">
+                    <circle cx="40" cy="40" r="36" stroke="currentColor" stroke-width="1.5" stroke-dasharray="6 4" />
+                    <path d="M30 44l6 6 14-16" stroke="currentColor" stroke-width="2.5" stroke-linecap="round"
+                        stroke-linejoin="round" />
+                </svg>
+                <p class="empty-state__text">No certificates yet. Upload your first one above!</p>
+            </div>
+        </section>
+
+        <!-- Footer -->
+        <footer class="footer">
+            <p>&copy; 2026 EduSpace &middot; Galaxy Vault</p>
+        </footer>
+    </div>
+
+    <!-- Certificate Detail Modal -->
+    <div class="modal-overlay" id="modal-overlay">
+        <div class="modal" id="modal">
+            <button class="modal__close" id="modal-close">&times;</button>
+            <div class="modal__preview" id="modal-preview"></div>
+            <div class="modal__info">
+                <h3 class="modal__title" id="modal-title"></h3>
+                <p class="modal__issuer" id="modal-issuer"></p>
+                <p class="modal__date" id="modal-date"></p>
+                <span class="modal__category" id="modal-category"></span>
+            </div>
+        </div>
+    </div>
+
+    <script src="galaxy-vault.js"></script>
+</body>
+
+</html>

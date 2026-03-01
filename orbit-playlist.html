@@ -1,0 +1,146 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Orbit Playlist – EduSpace</title>
+    <meta name="description"
+        content="Orbit Playlist – Curate YouTube learning playlists that orbit your educational goals." />
+    <link rel="preconnect" href="https://fonts.googleapis.com" />
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+    <link
+        href="https://fonts.googleapis.com/css2?family=Orbitron:wght@400;600;800&family=Inter:wght@300;400;500;600&display=swap"
+        rel="stylesheet" />
+    <link rel="stylesheet" href="orbit-playlist.css" />
+</head>
+
+<body>
+    <!-- Cinematic Starfield & Dust -->
+    <canvas id="starfield"></canvas>
+    <canvas id="cosmic-dust"></canvas>
+
+    <!-- Deep Ambient Glows -->
+    <div class="ambient-glow glow-blue"></div>
+    <div class="ambient-glow glow-purple"></div>
+
+    <div class="page-wrapper">
+
+        <!-- Navbar -->
+        <nav class="navbar" id="navbar">
+            <a href="index.html" class="navbar__brand">
+                <span class="navbar__logo">🚀</span>
+                <span class="navbar__name">EduSpace</span>
+            </a>
+            <ul class="navbar__links">
+                <li><a href="index.html" class="navbar__link">Home</a></li>
+                <li><a href="galaxy-vault.html" class="navbar__link">Galaxy Vault</a></li>
+                <li><a href="orbit-playlist.html" class="navbar__link navbar__link--active">Orbit Playlist</a></li>
+                <li><a href="#" class="navbar__link">Code Station</a></li>
+                <li><a href="#" class="navbar__link">Share Hub</a></li>
+            </ul>
+            <button class="navbar__hamburger" id="hamburger" aria-label="Toggle navigation">
+                <span></span><span></span><span></span>
+            </button>
+        </nav>
+
+        <!-- Page Header -->
+        <header class="orbit-header">
+            <div class="orbit-header__glow"></div>
+            <div class="orbit-header__icon">
+                <svg viewBox="0 0 80 80" fill="none">
+                    <ellipse cx="40" cy="40" rx="34" ry="14" stroke="url(#og)" stroke-width="2" />
+                    <ellipse cx="40" cy="40" rx="34" ry="14" stroke="url(#og)" stroke-width="2"
+                        transform="rotate(60 40 40)" />
+                    <ellipse cx="40" cy="40" rx="34" ry="14" stroke="url(#og)" stroke-width="2"
+                        transform="rotate(-60 40 40)" />
+                    <circle cx="40" cy="40" r="6" fill="url(#og)" />
+                    <defs>
+                        <linearGradient id="og" x1="0" y1="0" x2="80" y2="80">
+                            <stop stop-color="#00d4ff" />
+                            <stop offset="1" stop-color="#7b2fff" />
+                        </linearGradient>
+                    </defs>
+                </svg>
+            </div>
+            <h1 class="orbit-header__title">Orbit Playlist</h1>
+            <p class="orbit-header__subtitle">Curate your learning universe with YouTube videos. Paste a link, and watch
+                your playlist orbit into shape.</p>
+        </header>
+
+        <!-- Add Video Section -->
+        <section class="add-section">
+            <div class="add-card">
+                <div class="add-card__ring"></div>
+                <div class="add-card__content">
+                    <h2 class="add-card__heading">Add Video to Orbit</h2>
+                    <div class="add-card__form">
+                        <div class="input-group">
+                            <svg class="input-group__icon" viewBox="0 0 24 24" fill="none" stroke="currentColor"
+                                stroke-width="2" stroke-linecap="round">
+                                <polygon points="5 3 19 12 5 21 5 3" />
+                            </svg>
+                            <input type="text" id="yt-input" class="input-group__field"
+                                placeholder="Paste YouTube link here… (e.g. https://youtube.com/watch?v=...)"
+                                autocomplete="off" />
+                            <button class="input-group__btn" id="add-btn">
+                                <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"
+                                    stroke-linecap="round">
+                                    <line x1="12" y1="5" x2="12" y2="19" />
+                                    <line x1="5" y1="12" x2="19" y2="12" />
+                                </svg>
+                                <span>Add</span>
+                            </button>
+                        </div>
+                        <p class="add-card__hint" id="input-hint"></p>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <!-- Now Playing -->
+        <section class="now-playing" id="now-playing" style="display:none;">
+            <h2 class="section-title">Now Playing</h2>
+            <div class="player-wrapper">
+                <div class="player-frame" id="player-frame"></div>
+                <div class="player-info">
+                    <h3 class="player-info__title" id="player-title"></h3>
+                    <p class="player-info__channel" id="player-channel"></p>
+                </div>
+            </div>
+        </section>
+
+        <!-- Playlist Grid -->
+        <section class="playlist-section">
+            <div class="playlist-section__header">
+                <h2 class="section-title">Your Playlist <span class="playlist-count" id="playlist-count">0</span></h2>
+                <button class="clear-btn" id="clear-btn" style="display:none;">
+                    <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"
+                        stroke-linecap="round">
+                        <polyline points="3 6 5 6 21 6" />
+                        <path d="M19 6v14a2 2 0 01-2 2H7a2 2 0 01-2-2V6m3 0V4a2 2 0 012-2h4a2 2 0 012 2v2" />
+                    </svg>
+                    Clear All
+                </button>
+            </div>
+            <div class="video-grid" id="video-grid"></div>
+            <div class="empty-orbit" id="empty-orbit">
+                <div class="empty-orbit__rings">
+                    <div class="empty-orbit__ring empty-orbit__ring--1"></div>
+                    <div class="empty-orbit__ring empty-orbit__ring--2"></div>
+                    <div class="empty-orbit__ring empty-orbit__ring--3"></div>
+                </div>
+                <p class="empty-orbit__text">Your orbit is empty.<br />Add a YouTube video above to start your playlist!
+                </p>
+            </div>
+        </section>
+
+        <footer class="footer">
+            <p>&copy; 2026 EduSpace &middot; Orbit Playlist</p>
+        </footer>
+    </div>
+
+    <script src="orbit-playlist.js"></script>
+</body>
+
+</html>

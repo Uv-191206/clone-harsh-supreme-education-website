@@ -1,55 +1,99 @@
 <!DOCTYPE html>
 <html lang="en">
-<head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <meta name="description" content="EduSpace - A modern space-themed education platform for students to manage learning resources">
-    <title>EduSpace</title>
-    <!-- Google Fonts -->
-    <link rel="preconnect" href="https://fonts.googleapis.com">
-    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-    <link href="https://fonts.googleapis.com/css2?family=Outfit:wght@300;400;500;600;700;800&family=Space+Grotesk:wght@300;400;500;600;700&display=swap" rel="stylesheet">
-    <link rel="stylesheet" href="style.css">
-    <!-- FontAwesome for Icons -->
-    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
-</head>
-<body>
-    <!-- Persistent Star Background -->
-    <div id="stars"></div>
-    <div id="stars2"></div>
-    <div id="stars3"></div>
-    <div class="nebula-bg"></div>
 
-    <div class="app-layout">
-        <!-- Sidebar Navigation -->
-        <nav class="sidebar glass-panel">
-            <div class="logo">
-                <i class="fa-solid fa-user-astronaut nav-icon glowing-icon"></i>
-                <h1>EduSpace</h1>
-            </div>
-            <ul class="nav-links">
-                <li><a href="#home" class="nav-link active" data-route="home"><i class="fa-solid fa-house"></i> Universe Dashboard</a></li>
-                <li><a href="#vault" class="nav-link" data-route="vault"><i class="fa-solid fa-medal"></i> Galaxy Vault</a></li>
-                <li><a href="#playlist" class="nav-link" data-route="playlist"><i class="fa-brands fa-youtube"></i> Orbit Playlist</a></li>
-                <li><a href="#code" class="nav-link" data-route="code"><i class="fa-solid fa-terminal"></i> Code Station</a></li>
-                <li><a href="#share" class="nav-link" data-route="share"><i class="fa-solid fa-share-nodes"></i> Share Hub</a></li>
-                <li><a href="#about" class="nav-link" data-route="about"><i class="fa-solid fa-satellite"></i> About Mission</a></li>
-            </ul>
-            <div class="student-profile">
-                <div class="avatar"><i class="fa-solid fa-user"></i></div>
-                <div class="info">
-                    <span class="name">Cadet Explorer</span>
-                    <span class="level">Level 42</span>
+<head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>EduSpace – Learning Universe</title>
+    <meta name="description"
+        content="EduSpace main dashboard – an interactive solar system connecting you to your learning universe." />
+    <link rel="preconnect" href="https://fonts.googleapis.com" />
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+    <link
+        href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600&family=Outfit:wght@200;300;400;500;600&display=swap"
+        rel="stylesheet" />
+    <link rel="stylesheet" href="index.css" />
+</head>
+
+<body>
+
+    <!-- Smooth transition overlay -->
+    <div class="transition-overlay" id="transition-overlay"></div>
+
+    <!-- Interactive Space Layer -->
+    <div id="space-viewport">
+
+        <!-- Background Canvas layers for depth -->
+        <canvas id="starfield" class="parallax-bg"></canvas>
+        <canvas id="cosmic-dust" class="parallax-fg"></canvas>
+
+        <!-- Deep Ambient Glows -->
+        <div class="ambient-glow glow-blue"></div>
+        <div class="ambient-glow glow-purple"></div>
+
+        <!-- The Solar System Group -->
+        <div class="solar-system" id="solar-system">
+
+            <!-- Central Sun (Main Dashboard) - Not clickable -->
+            <div class="planet-group group-sun" style="transform: translate(0, 0);">
+                <div class="planet sun"></div>
+                <div class="planet-halo halo-sun"></div>
+                <div class="planet-title">
+                    <h2>Central AI</h2>
+                    <p>Dashboard</p>
                 </div>
             </div>
-        </nav>
 
-        <!-- Main Content Area where SPA views will be injected -->
-        <main id="app-container" class="main-content">
-            <!-- View content will be injected here by app.js -->
-        </main>
+            <!-- Earth (Certificate Vault) -->
+            <a href="galaxy-vault.html" class="planet-group group-earth" style="transform: translate(-350px, -180px);">
+                <div class="planet earth">
+                    <div class="atmosphere"></div>
+                </div>
+                <div class="planet-halo halo-earth"></div>
+                <div class="planet-title">
+                    <h2>Certificate Vault</h2>
+                    <p>Achievements</p>
+                </div>
+            </a>
+
+            <!-- Saturn (Learning Playlist) -->
+            <a href="orbit-playlist.html" class="planet-group group-saturn"
+                style="transform: translate(400px, -220px);">
+                <div class="planet saturn">
+                    <div class="saturn-rings"></div>
+                    <div class="atmosphere"></div>
+                </div>
+                <div class="planet-halo halo-saturn"></div>
+                <div class="planet-title">
+                    <h2>Learning Playlist</h2>
+                    <p>Video Curator</p>
+                </div>
+            </a>
+
+            <!-- Mars (Code Zone) -->
+            <a href="code-station.html" class="planet-group group-mars" style="transform: translate(250px, 300px);">
+                <div class="planet mars"></div>
+                <div class="planet-halo halo-mars"></div>
+                <div class="planet-title">
+                    <h2>Code Zone</h2>
+                    <p>Dev Station</p>
+                </div>
+            </a>
+
+            <!-- Moon (Share Hub) -->
+            <a href="share-hub.html" class="planet-group group-moon" style="transform: translate(-280px, 280px);">
+                <div class="planet moon"></div>
+                <div class="planet-halo halo-moon"></div>
+                <div class="planet-title">
+                    <h2>Share Hub</h2>
+                    <p>Communication Panel</p>
+                </div>
+            </a>
+
+        </div>
     </div>
 
-    <script src="app.js"></script>
+    <script src="index.js"></script>
 </body>
+
 </html>

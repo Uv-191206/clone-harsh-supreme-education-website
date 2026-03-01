@@ -1,0 +1,147 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Code Station – EduSpace</title>
+    <meta name="description"
+        content="Code Station – Save, manage, and edit your code snippets in a dark futuristic terminal." />
+    <link rel="preconnect" href="https://fonts.googleapis.com" />
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+    <link
+        href="https://fonts.googleapis.com/css2?family=Orbitron:wght@400;600;800&family=Inter:wght@300;400;500;600&family=Fira+Code:wght@400;500;600&display=swap"
+        rel="stylesheet" />
+    <link rel="stylesheet" href="code-station.css" />
+</head>
+
+<body>
+    <!-- Cinematic Starfield & Dust -->
+    <canvas id="starfield"></canvas>
+    <canvas id="cosmic-dust"></canvas>
+
+    <!-- Deep Ambient Glows -->
+    <div class="ambient-glow glow-blue"></div>
+    <div class="ambient-glow glow-purple"></div>
+
+    <div class="scrolling-grid"></div>
+
+    <div class="page-wrapper">
+        <!-- Navbar -->
+        <nav class="navbar" id="navbar">
+            <a href="index.html" class="navbar__brand">
+                <span class="navbar__logo">🚀</span>
+                <span class="navbar__name">EduSpace</span>
+            </a>
+            <ul class="navbar__links">
+                <li><a href="index.html" class="navbar__link">Home</a></li>
+                <li><a href="galaxy-vault.html" class="navbar__link">Galaxy Vault</a></li>
+                <li><a href="orbit-playlist.html" class="navbar__link">Orbit Playlist</a></li>
+                <li><a href="code-station.html" class="navbar__link navbar__link--active">Code Station</a></li>
+                <li><a href="#" class="navbar__link">Share Hub</a></li>
+            </ul>
+            <button class="navbar__hamburger" id="hamburger" aria-label="Toggle navigation">
+                <span></span><span></span><span></span>
+            </button>
+        </nav>
+
+        <!-- Main Content -->
+        <main class="station-main">
+            <header class="station-header">
+                <h1 class="station-title"><span class="prompt">root@eduspace:~$</span> ./code_station</h1>
+                <p class="station-subtitle">Secure terminal for saving, editing, and executing your code sequences
+                    across the sector.</p>
+            </header>
+
+            <div class="terminal-layout">
+
+                <!-- Sidebar: Saved Snippets -->
+                <aside class="snippets-sidebar">
+                    <div class="sidebar-header">
+                        <h2 class="sidebar-title">Saved Sequences</h2>
+                        <button class="btn-icon" id="new-snippet-btn" title="New Snippet">
+                            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                                <line x1="12" y1="5" x2="12" y2="19" />
+                                <line x1="5" y1="12" x2="19" y2="12" />
+                            </svg>
+                        </button>
+                    </div>
+                    <div class="search-box">
+                        <svg class="search-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                            <circle cx="11" cy="11" r="8" />
+                            <line x1="21" y1="21" x2="16.65" y2="16.65" />
+                        </svg>
+                        <input type="text" id="search-input" placeholder="Search by name or language..." />
+                    </div>
+                    <ul class="snippet-list" id="snippet-list">
+                        <!-- Rendered by JS -->
+                    </ul>
+                </aside>
+
+                <!-- Main Editor Area -->
+                <section class="editor-area">
+                    <div class="editor-topbar">
+                        <div class="window-controls">
+                            <span class="dot dot--red"></span>
+                            <span class="dot dot--yellow"></span>
+                            <span class="dot dot--green"></span>
+                        </div>
+                        <div class="editor-title-group">
+                            <input type="text" id="snippet-title" class="title-input" placeholder="Untitled_Sequence"
+                                value="Untitled_Sequence" />
+                            <div class="lang-select-wrapper">
+                                <select id="lang-select" class="lang-select">
+                                    <option value="javascript">JavaScript</option>
+                                    <option value="python">Python</option>
+                                    <option value="html">HTML</option>
+                                    <option value="css">CSS</option>
+                                    <option value="c">C++ / C</option>
+                                    <option value="java">Java</option>
+                                    <option value="go">Go</option>
+                                    <option value="rust">Rust</option>
+                                    <option value="txt">Plain Text</option>
+                                </select>
+                            </div>
+                        </div>
+                        <div class="editor-actions">
+                            <button class="btn btn--outline" id="delete-btn" style="display:none;">Delete</button>
+                            <button class="btn btn--primary" id="save-btn">Save System log</button>
+                        </div>
+                    </div>
+
+                    <!-- Code Input -->
+                    <div class="code-container">
+                        <div class="line-numbers" id="line-numbers">1</div>
+                        <textarea id="code-editor" class="code-editor" spellcheck="false"
+                            placeholder="// Initialize your code here..."></textarea>
+                    </div>
+
+                    <!-- Output Console (Fake) -->
+                    <div class="console">
+                        <div class="console-header">
+                            <span>Terminal Output</span>
+                            <button class="btn-icon btn-icon--small" id="run-btn" title="Run Code (Simulated)">
+                                <svg viewBox="0 0 24 24" fill="currentColor">
+                                    <polygon points="5 3 19 12 5 21 5 3" />
+                                </svg>
+                                Run
+                            </button>
+                        </div>
+                        <div class="console-body" id="console-output">
+                            <span class="sys-msg">System initialized. Awaiting commands...</span>
+                        </div>
+                    </div>
+                </section>
+
+            </div>
+        </main>
+
+        <footer class="footer">
+            <p>&copy; 2026 EduSpace &middot; Code Station Terminal</p>
+        </footer>
+    </div>
+
+    <script src="code-station.js"></script>
+</body>
+
+</html>
